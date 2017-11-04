@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace EasyDI
+namespace EasyDI.Core
 {
     public class Class1
     {

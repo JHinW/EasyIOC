@@ -1,5 +1,6 @@
 ﻿using SF.Async.EasyDI.Abstractions;
 using System;
+using static EasyDI.Core.Delegates;
 using static SF.Async.EasyDI.DIDelegatesDefinitions;
 
 namespace SF.Async.EasyDI.Usages

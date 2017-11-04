@@ -3,18 +3,18 @@ using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 
-namespace SF.Async.EasyDI.Abstractions
+namespace EasyDI.Re.Abstractions
 {
     public abstract class ContainerBase: IContainer
     {
-        private ConcurrentDictionary<Type, EasyTypeDescriptorItem> _container;
+        private readonly ConcurrentDictionary<Type, EasyTypeDescriptorItem> _container;
 
-        public ContainerBase()
+        protected ContainerBase()
         {
             _container = new ConcurrentDictionary<Type, EasyTypeDescriptorItem>();
         }
 
-        public ContainerBase(IEnumerable<EasyTypeDescriptor> descriptors)
+        protected ContainerBase(IEnumerable<EasyTypeDescriptor> descriptors)
         {
             _container = new ConcurrentDictionary<Type, EasyTypeDescriptorItem>();
             foreach (var descriptor in descriptors)
@@ -27,7 +27,7 @@ namespace SF.Async.EasyDI.Abstractions
         {
 
             var item = new EasyTypeDescriptorItem();
-            _container.AddOrUpdate(key, item.Add(descriptor), (_key, oldValue) =>{
+            _container.AddOrUpdate(key, item.Add(descriptor), (_key, oldValue) => {
                 return oldValue.Add(descriptor);
             });
         }
@@ -53,11 +53,11 @@ namespace SF.Async.EasyDI.Abstractions
 
         public abstract IResolver CreateTypeResolver();
 
+        public abstract ITracker CreateTracker();
+
         public void Sync()
         {
             throw new NotImplementedException();
         }
-
-        public abstract ITracker CreateTracker();
     }
 }

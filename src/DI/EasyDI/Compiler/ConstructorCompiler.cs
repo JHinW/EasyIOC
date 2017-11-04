@@ -1,4 +1,5 @@
-﻿using SF.Async.EasyDI.Abstractions;
+﻿using EasyDI.Core;
+using SF.Async.EasyDI.Abstractions;
 using SF.Async.EasyDI.Extensions;
 using System;
 using System.Collections;

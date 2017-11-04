@@ -1,12 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
+using static EasyDI.Core.Delegates;
 
-namespace SF.Async.EasyDI
+namespace EasyDI.Core
 {
     using TypeFactory = Func<IResolver, Object>;
+
     public class EasyTypeDescriptor
     {
         private EasyTypeDescriptor(Type serviceType)
@@ -16,7 +16,7 @@ namespace SF.Async.EasyDI
 
         public EasyTypeDescriptor(
             Type serviceType,
-            Type implementationType): this(serviceType)
+            Type implementationType) : this(serviceType)
         {
             ServiceType = serviceType;
             ImplementationType = implementationType;
@@ -24,25 +24,23 @@ namespace SF.Async.EasyDI
 
         public EasyTypeDescriptor(
             Type serviceType,
-            TypeFactory factory): this(serviceType)
+            TypeFactory factory) : this(serviceType)
         {
             ImplementationFactory = factory;
         }
 
         public EasyTypeDescriptor(
             Type serviceType,
-            object instance): this(serviceType)
+            object instance) : this(serviceType)
         {
-
             ImplementationInstance = instance;
         }
-
 
         public Type ServiceType { get; }
 
         public Type ImplementationType { get; }
 
-        public Func<IResolver, object> ImplementationFactory { get; }
+        public TypeFactory ImplementationFactory { get; }
 
         public object ImplementationInstance { get; }
 

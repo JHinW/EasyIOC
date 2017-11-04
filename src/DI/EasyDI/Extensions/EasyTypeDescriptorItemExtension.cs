@@ -1,4 +1,5 @@
-﻿using SF.Async.EasyDI.Compiler;
+﻿using EasyDI.Core;
+using SF.Async.EasyDI.Compiler;
 using System;
 using System.Collections;
 using System.Linq;

@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static EasyDI.Core.Delegates;
 using static SF.Async.EasyDI.DIDelegatesDefinitions;
 
 namespace SF.Async.EasyDI.Abstractions
@@ -31,7 +32,7 @@ namespace SF.Async.EasyDI.Abstractions
         }
 
 
-        public override void Scope(HashSet<Type> resolvingTypeSet)
+        public override void ResolvingTypes(HashSet<Type> resolvingTypeSet)
         {
             _resolvingTypeSet = resolvingTypeSet;
         }

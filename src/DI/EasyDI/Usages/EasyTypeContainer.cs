@@ -1,11 +1,12 @@
-﻿using SF.Async.EasyDI.Abstractions;
+﻿using EasyDI.Core;
+using SF.Async.EasyDI.Abstractions;
 using System;
 using System.Collections.Concurrent;
 
 namespace SF.Async.EasyDI.Usages
 {
     public class EasyTypeContainer: ContainerBase
-    {    
+    {
         public EasyTypeContainer()
         {
         }

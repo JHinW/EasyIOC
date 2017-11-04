@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace SF.Async.EasyDI.Statics
 {
-    public class EnumrableHelper
+    public static class EnumrableHelper
     {
         public static Object CreateEnumrable(Type type, object[] parameters)
         {

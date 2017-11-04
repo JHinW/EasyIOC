@@ -1,8 +1,10 @@
-﻿using System;
+﻿using EasyDI.Core;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static EasyDI.Core.Delegates;
 using static SF.Async.EasyDI.DIDelegatesDefinitions;
 
 namespace SF.Async.EasyDI.Abstractions

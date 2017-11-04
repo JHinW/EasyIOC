@@ -1,4 +1,5 @@
-﻿using SF.Async.EasyDI.Compiler;
+﻿using EasyDI.Core;
+using SF.Async.EasyDI.Compiler;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -25,8 +26,8 @@ namespace SF.Async.EasyDI.Extensions
             {
                 bestConstructor = constructor;
                 var paras = constructor.GetParameters();
-                var resolveFilter = paras.Where(p => resolver.CanBeResolve(p.ParameterType));
-                if (paras.Count() == resolveFilter.Count())
+                var resolveFilter = paras.Where(p => resolver.CanBeResolved(p.ParameterType));
+                if (paras.Length == resolveFilter.Count())
                 {
                     break;
                 }
@@ -63,17 +64,17 @@ namespace SF.Async.EasyDI.Extensions
                 && baseType.IsGenericType;
 
             if (IsGenericTypeAndIsIEnumerable 
-                && !resolver.CanBeResolve(realBaseType))
+                && !resolver.CanBeResolved(realBaseType))
             {
                 var clonedGenerics = baseType.GetGenericArguments();
-                if (clonedGenerics.Count() == 1)
+                if (clonedGenerics.Length == 1)
                 {
                     realBaseType = clonedGenerics[0];
 
                 }
             }
 
-            if (resolver.CanBeResolve(realBaseType))
+            if (resolver.CanBeResolved(realBaseType))
             {
                 var item = resolver.DecriptorResolve(realBaseType);
                 return item.AsCompiler(IsGenericTypeAndIsIEnumerable, resolver);

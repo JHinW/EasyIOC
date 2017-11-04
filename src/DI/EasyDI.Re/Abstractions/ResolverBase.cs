@@ -1,33 +1,35 @@
 ﻿using EasyDI.Core;
-using SF.Async.EasyDI.Extensions;
+using EasyDI.Re.Statics;
 using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
+using System.Text;
 using static EasyDI.Core.Delegates;
-using static SF.Async.EasyDI.DIDelegatesDefinitions;
 
-namespace SF.Async.EasyDI.Abstractions
+namespace EasyDI.Re.Abstractions
 {
-    public abstract class TypeResolverBase: IResolver
+    public abstract class ResolverBase : IResolver
     {
         public BaseTypeToDescriptorItemDelegate _baseTypeToDescriptorItemDelegate;
 
         public ResolveCheckDelegate _resolveCheckDelegate;
 
-        protected TypeResolverBase(
+        public HashSet<Type> _resolvingTypeSet;
+
+
+        protected ResolverBase(
             BaseTypeToDescriptorItemDelegate baseTypeToDescriptorItemDelegate,
             ResolveCheckDelegate resolveCheckDelegate
             )
         {
             _baseTypeToDescriptorItemDelegate = baseTypeToDescriptorItemDelegate;
             _resolveCheckDelegate = resolveCheckDelegate;
+            _resolvingTypeSet = new HashSet<Type>();
         }
 
         public virtual object GetInstance(Type baseType)
         {
-            var compiler = baseType.AsCompilerFromBaseType(this);
-            return compiler.Compile().Link();
+            var factory = TypeHelper.BaseType2InstanceFactory(baseType, this);
+            return factory(this);
         }
 
         public bool CanBeResolved(Type baseType)
@@ -44,8 +46,14 @@ namespace SF.Async.EasyDI.Abstractions
 
         public abstract void ResolvingTypes(HashSet<Type> resolvingTypeSet);
 
-        public abstract bool IsResolving(Type baseType);
+        public virtual bool IsResolving(Type baseType)
+        {
+            return _resolvingTypeSet.Contains(baseType);
+        }
 
-        public abstract void AddToScopeSet(Type baseType);
+        public virtual void AddToScopeSet(Type baseType)
+        {
+            _resolvingTypeSet.Add(baseType);
+        }
     }
 }

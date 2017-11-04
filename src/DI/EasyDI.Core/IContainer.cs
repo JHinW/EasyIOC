@@ -1,10 +1,7 @@
 ﻿using System;
 
-namespace SF.Async.EasyDI
+namespace EasyDI.Core
 {
-    /// <summary>
-    /// singleton
-    /// </summary>
     public interface IContainer
     {
         void AddDescriptor(Type key, EasyTypeDescriptor descriptor);

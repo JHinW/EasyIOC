@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SF.Async.EasyDI
+namespace EasyDI.Core
 {
     //using OwnedImmutableList = ImmutableList<EasyTypeDescriptor>;
     public struct EasyTypeDescriptorItem
@@ -59,6 +59,17 @@ namespace SF.Async.EasyDI
 
                 return _items[index - 1];
             }
+        }
+
+        public IEnumerable<EasyTypeDescriptor> ToArray()
+        {
+            var list = new List<EasyTypeDescriptor>();
+            for (var i = 0; i < this.Count; i++)
+            {
+                list.Add(this[i]);
+            }
+
+            return list;
         }
 
         public EasyTypeDescriptorItem Add(EasyTypeDescriptor descriptor)

@@ -1,17 +1,18 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Text;
 
-namespace SF.Async.EasyDI
+namespace EasyDI.Core
 {
     public interface IResolver
     {
         Object GetInstance(Type baseType);
 
-        bool CanBeResolve(Type baseType);
+        bool CanBeResolved(Type baseType);
 
         EasyTypeDescriptorItem DecriptorResolve(Type baseType);
 
-        void Scope(HashSet<Type> resolvingTypeSet);
+        void ResolvingTypes(HashSet<Type> resolvingTypeSet);
 
         bool IsResolving(Type baseType);
 

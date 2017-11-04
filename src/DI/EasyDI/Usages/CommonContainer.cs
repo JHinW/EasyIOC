@@ -1,4 +1,5 @@
-﻿using SF.Async.EasyDI.Abstractions;
+﻿using EasyDI.Core;
+using SF.Async.EasyDI.Abstractions;
 using System;
 using System.Collections.Generic;
 using System.Linq;

@@ -1,4 +1,5 @@
 ﻿using EasyDI.Core;
+using EasyDI.Re.Definitions;
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
@@ -8,6 +9,8 @@ namespace EasyDI.Re.Abstractions
     public abstract class ContainerBase: IContainer
     {
         private readonly ConcurrentDictionary<Type, EasyTypeDescriptorItem> _container;
+
+        private readonly ConcurrentDictionary<Type, CompiledTypeDef> _compliedContainer;
 
         protected ContainerBase()
         {

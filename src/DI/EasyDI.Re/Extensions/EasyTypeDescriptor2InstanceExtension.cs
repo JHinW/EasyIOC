@@ -1,17 +1,16 @@
 ﻿using EasyDI.Core;
-using EasyDI.Re.Statics;
 using System;
 using System.Linq;
-using static EasyDI.Core.Delegates;
+using static EasyDI.Re.ReDelgates;
 
 namespace EasyDI.Re.Extensions
 {
-    public static class EasyTypeDescriptorExtension
+    public static class EasyTypeDescriptor2InstanceExtension
     {
-        public static InstanceFactory AsInstanceFactory(this EasyTypeDescriptor item)
+        public static InstanceUpFactory AsInstanceUpFactory(this EasyTypeDescriptor item)
         {
             var selectedItem = item;
-            return resolver =>
+            return (resolver, def) =>
             {
                 if (selectedItem.ImplementationFactory != null)
                 {
@@ -27,19 +26,20 @@ namespace EasyDI.Re.Extensions
                 {
                     var implT = selectedItem.ImplementationType;
 
+                    var constructedImplType = implT;
+
                     if (implT.IsGenericParameter && !implT.IsConstructedGenericType)
                     {
                         // typeof(implT).MakeGenericType(type);
+                        constructedImplType =  implT.MakeGenericType(def.GenericsDependencies);
                     }
-                    else
-                    {
-                        var paras = implT
-                        .ExportDependency(type => resolver.CanBeResolved(type))
-                        .Select(type => resolver.GetInstance(type)).ToArray();
 
-                        return Activator.CreateInstance(implT, paras);
-                    }
-                    
+                    var paras = constructedImplType
+                        .ExportDependency(type => resolver.CanBeResolved(type))
+                        .Select(type => resolver.GetInstance(type))
+                        .ToArray();
+
+                    return Activator.CreateInstance(implT, paras);
                 }
 
                 return null;

@@ -61,7 +61,7 @@ namespace EasyDI.Core
             }
         }
 
-        public IEnumerable<EasyTypeDescriptor> ToArray()
+        public IEnumerable<EasyTypeDescriptor> ToDispArray()
         {
             var list = new List<EasyTypeDescriptor>();
             for (var i = 0; i < this.Count; i++)

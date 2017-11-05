@@ -2,8 +2,6 @@
 using EasyDI.Re.Extensions;
 using System;
 using System.Collections;
-using System.Collections.Generic;
-using System.Text;
 using static EasyDI.Core.Delegates;
 
 namespace EasyDI.Re.Statics
@@ -28,18 +26,26 @@ namespace EasyDI.Re.Statics
                     .AsInstanceFactory(false);
             }
 
-            if (typeof(IEnumerable).IsAssignableFrom(baseType)
-                && baseType.IsGenericType)
+            if (baseType.IsGenericType)
             {
-                var clonedGenerics = baseType.GetGenericArguments();
-                if (clonedGenerics.Length == 1)
+                var capType = baseType.GetGenericTypeDefinition();
+                if (resolver.CanBeResolved(capType))
                 {
-                    var realBaseType = clonedGenerics[0];
-                    if (resolver.CanBeResolved(baseType))
+
+                }
+
+                if (typeof(IEnumerable).IsAssignableFrom(baseType))
+                {
+                    var clonedGenerics = baseType.GetGenericArguments();
+                    if (clonedGenerics.Length == 1)
                     {
-                        return resolver
-                            .DecriptorResolve(baseType)
-                            .AsInstanceFactory(true);
+                        var realBaseType = clonedGenerics[0];
+                        if (resolver.CanBeResolved(realBaseType))
+                        {
+                            return resolver
+                                .DecriptorResolve(realBaseType)
+                                .AsInstanceFactory(true);
+                        }
                     }
                 }
             }

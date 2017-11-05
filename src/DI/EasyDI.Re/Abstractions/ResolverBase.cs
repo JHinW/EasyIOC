@@ -1,4 +1,5 @@
 ﻿using EasyDI.Core;
+using EasyDI.Re.Extensions;
 using EasyDI.Re.Statics;
 using System;
 using System.Collections.Generic;
@@ -9,11 +10,11 @@ namespace EasyDI.Re.Abstractions
 {
     public abstract class ResolverBase : IResolver
     {
-        public BaseTypeToDescriptorItemDelegate _baseTypeToDescriptorItemDelegate;
+        private BaseTypeToDescriptorItemDelegate _baseTypeToDescriptorItemDelegate;
 
-        public ResolveCheckDelegate _resolveCheckDelegate;
+        private ResolveCheckDelegate _resolveCheckDelegate;
 
-        public HashSet<Type> _resolvingTypeSet;
+        private HashSet<Type> _resolvingTypeSet;
 
 
         protected ResolverBase(
@@ -28,7 +29,10 @@ namespace EasyDI.Re.Abstractions
 
         public virtual object GetInstance(Type baseType)
         {
-            var factory = TypeHelper.BaseType2InstanceFactory(baseType, this);
+            var factory = baseType
+                .AsResolvableType(this)
+                .AsInstanceFactory();
+            // var factory = TypeHelper.BaseType2InstanceFactory(baseType, this);
             return factory(this);
         }
 

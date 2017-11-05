@@ -19,7 +19,10 @@ namespace EasyDI.Re.Implements
 
         public override IResolver CreateTypeResolver()
         {
-            return null;
+            return new Resolver(
+                type => this[type],
+                type => this.IsHasKey(type)
+                );
         }
     }
 }

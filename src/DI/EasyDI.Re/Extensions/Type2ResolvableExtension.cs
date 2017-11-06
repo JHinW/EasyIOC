@@ -11,17 +11,18 @@ namespace EasyDI.Re.Extensions
     {
         public static ResolvableTypeDef AsResolvableType(this Type baseType, IResolver resolver)
         {
-            if (resolver.IsResolving(baseType))
-            {
-                throw new InvalidOperationException("Error: Circular Dependency.");
-            }
-            else
-            {
-                resolver.AddToScopeSet(baseType);
-            }
-
             if (resolver.CanBeResolved(baseType))
             {
+
+                if (resolver.IsResolving(baseType))
+                {
+                    throw new InvalidOperationException("Error: Circular Dependency.");
+                }
+                else
+                {
+                    resolver.AddToScopeSet(baseType);
+                }
+
                 return new ResolvableTypeDef
                 {
                     OriginalType = baseType,
@@ -38,6 +39,15 @@ namespace EasyDI.Re.Extensions
                 var capType = baseType.GetGenericTypeDefinition();
                 if (resolver.CanBeResolved(capType))
                 {
+                    if (resolver.IsResolving(capType))
+                    {
+                        throw new InvalidOperationException("Error: Circular Dependency.");
+                    }
+                    else
+                    {
+                        resolver.AddToScopeSet(capType);
+                    }
+
                     return new ResolvableTypeDef
                     {
                         OriginalType = baseType,
@@ -58,6 +68,16 @@ namespace EasyDI.Re.Extensions
                         var realBaseType = clonedGenerics[0];
                         if (resolver.CanBeResolved(realBaseType))
                         {
+                            if (resolver.IsResolving(realBaseType))
+                            {
+                                throw new InvalidOperationException("Error: Circular Dependency.");
+                            }
+                            else
+                            {
+                                resolver.AddToScopeSet(realBaseType);
+                            }
+
+
                             return new ResolvableTypeDef
                             {
                                 OriginalType = baseType,

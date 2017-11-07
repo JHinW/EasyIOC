@@ -26,15 +26,14 @@ namespace EasyDI.Re.Extensions
                 {
                     var implT = selectedItem.ImplementationType;
 
-                    var constructedImplType = implT;
-
-                    if (implT.IsGenericParameter && !implT.IsConstructedGenericType)
+                    if (implT.IsGenericType 
+                    && !implT.IsConstructedGenericType)
                     {
                         // typeof(implT).MakeGenericType(type);
-                        constructedImplType =  implT.MakeGenericType(def.GenericsDependencies);
+                        implT =  implT.MakeGenericType(def.GenericsDependencies);
                     }
 
-                    var paras = constructedImplType
+                    var paras = implT
                         .ExportDependency(type => resolver.CanBeResolved(type))
                         .Select(type => resolver.GetInstance(type))
                         .ToArray();

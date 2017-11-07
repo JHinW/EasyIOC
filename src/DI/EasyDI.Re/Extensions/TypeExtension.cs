@@ -1,11 +1,7 @@
-﻿using EasyDI.Core;
-using System;
-using System.Collections;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using System.Text;
-using static EasyDI.Core.Delegates;
 
 namespace EasyDI.Re.Extensions
 {

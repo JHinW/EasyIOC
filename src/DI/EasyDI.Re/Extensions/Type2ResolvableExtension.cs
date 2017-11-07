@@ -1,5 +1,6 @@
 ﻿using EasyDI.Core;
 using EasyDI.Re.Definitions;
+using EasyDI.Re.Statics;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -11,88 +12,36 @@ namespace EasyDI.Re.Extensions
     {
         public static ResolvableTypeDef AsResolvableType(this Type baseType, IResolver resolver)
         {
+            ResolvableTypeDef ret = null;
+
+            #region Resolve the original type
+
             if (resolver.CanBeResolved(baseType))
             {
-
-                if (resolver.IsResolving(baseType))
-                {
-                    throw new InvalidOperationException("Error: Circular Dependency.");
-                }
-                else
-                {
-                    resolver.AddToScopeSet(baseType);
-                }
-
-                return new ResolvableTypeDef
-                {
-                    OriginalType = baseType,
-                    ResolvableType = baseType,
-                    IsEnumrableType = false,
-                    IsGenericType = false,
-                    GenericsDependencies = null,
-                    EasyTypeDescriptorItem = resolver.DecriptorResolve(baseType)
-                };
+                ret =  TypeResolveHelper.BaseTypeResolve(baseType, resolver);
             }
+
+            #endregion
+
+            #region Try to resolve the generic type
 
             if (baseType.IsGenericType)
             {
-                var capType = baseType.GetGenericTypeDefinition();
-                if (resolver.CanBeResolved(capType))
-                {
-                    if (resolver.IsResolving(capType))
-                    {
-                        throw new InvalidOperationException("Error: Circular Dependency.");
-                    }
-                    else
-                    {
-                        resolver.AddToScopeSet(capType);
-                    }
+                ret =  TypeResolveHelper.GenericBaseResolve(baseType, resolver);
 
-                    return new ResolvableTypeDef
-                    {
-                        OriginalType = baseType,
-                        ResolvableType = capType,
-                        IsEnumrableType = false,
-                        IsGenericType = true,
-                        GenericsDependencies = capType.GetGenericArguments(),
-                        EasyTypeDescriptorItem = resolver.DecriptorResolve(capType)
-                    };
-
-                }
+                #region Try to resolve the IEnumerable type
 
                 if (typeof(IEnumerable).IsAssignableFrom(baseType))
                 {
-                    var clonedGenerics = baseType.GetGenericArguments();
-                    if (clonedGenerics.Length == 1)
-                    {
-                        var realBaseType = clonedGenerics[0];
-                        if (resolver.CanBeResolved(realBaseType))
-                        {
-                            if (resolver.IsResolving(realBaseType))
-                            {
-                                throw new InvalidOperationException("Error: Circular Dependency.");
-                            }
-                            else
-                            {
-                                resolver.AddToScopeSet(realBaseType);
-                            }
-
-
-                            return new ResolvableTypeDef
-                            {
-                                OriginalType = baseType,
-                                ResolvableType = realBaseType,
-                                IsEnumrableType = true,
-                                IsGenericType = true,
-                                GenericsDependencies = null,
-                                EasyTypeDescriptorItem = resolver.DecriptorResolve(realBaseType)
-                            };
-                        }
-                    }
+                    ret =  TypeResolveHelper.GenericEnumrableResolve(baseType, resolver);
                 }
+
+                # endregion
             }
 
-            throw new InvalidOperationException($"Error: Type: {baseType} Can not be resolved.");
+            #endregion
+
+            return ret ?? throw new InvalidOperationException($"Error: Type: {baseType} Can not be resolved.");
         }
     }
 }

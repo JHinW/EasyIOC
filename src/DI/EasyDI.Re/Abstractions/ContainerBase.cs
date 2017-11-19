@@ -28,7 +28,6 @@ namespace EasyDI.Re.Abstractions
 
         public void AddDescriptor(Type key, EasyTypeDescriptor descriptor)
         {
-
             var item = new EasyTypeDescriptorItem();
             _container.AddOrUpdate(key, item.Add(descriptor), (_key, oldValue) => {
                 return oldValue.Add(descriptor);

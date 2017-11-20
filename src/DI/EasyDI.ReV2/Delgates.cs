@@ -8,5 +8,8 @@ namespace EasyDI.ReV2
          public delegate object InstanceScopeFactory(
              IResolver resolver,
              IScope scope);
+
+        public delegate InstanceScopeFactory InstanceTrackScopeFactory(
+             ITracker tracker);
     }
 }

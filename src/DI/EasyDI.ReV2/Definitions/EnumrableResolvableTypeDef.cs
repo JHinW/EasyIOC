@@ -7,12 +7,11 @@ namespace EasyDI.ReV2.Definitions
 {
     public class EnumrableResolvableTypeDef: ResolvableTypeBase
     {
-        public IEnumerable<(int, Delgates.InstanceScopeFactory)> Factories { get; }
+        public IList<CurriedDescriptorDef> Factories { get; }
 
-        public EnumrableResolvableTypeDef(
-              Type originalType,
+        public EnumrableResolvableTypeDef(Type originalType,
               Type resolvableType,
-              IEnumerable<(int, Delgates.InstanceScopeFactory)> factories
+              IList<CurriedDescriptorDef> factories
             )
           : base(originalType,
                 resolvableType

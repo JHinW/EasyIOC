@@ -1,6 +1,4 @@
-﻿using EasyDI.Core;
-using System;
-using static EasyDI.ReV2.Delgates;
+﻿using System;
 
 namespace EasyDI.ReV2
 {
@@ -9,7 +7,5 @@ namespace EasyDI.ReV2
         Type OriginalType { get;}
 
         Type ResolvableType { get; }
-
-        (int, ServiceLifetime, InstanceScopeFactory)  Factories { get; }
 }
 }

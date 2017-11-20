@@ -12,8 +12,6 @@ namespace EasyDI.ReV2.Abstractions
 
         public Type ResolvableType { get; }
 
-        public (int, ServiceLifetime, InstanceScopeFactory) Factories { get; }
-
         protected ResolvableTypeBase(
             Type originalType,
             Type resolvableType

@@ -40,10 +40,7 @@ namespace EasyDI.ReV2.Implements
                         return _scopeContainer.GetOrAdd(
                           ordinaryResolvableTypeDef.ResolvableType,
                             (key) => {
-                                var k = new List<(int, object)>();
-                                var w = (0, ordinaryResolvableTypeDef.Factory(resolver, scope));
-                                k.Add(w);
-                                return k;
+                                return null;
                             });
                     };
 

@@ -10,7 +10,7 @@ namespace EasyDI.Re.Abstractions
     {
         private readonly ConcurrentDictionary<Type, EasyTypeDescriptorItem> _container;
 
-        private readonly ConcurrentDictionary<Type, CompiledTypeDef> _compliedContainer;
+        private readonly ConcurrentDictionary<Type, CompiledDescriptorDef> _compliedContainer;
 
         protected ContainerBase()
         {

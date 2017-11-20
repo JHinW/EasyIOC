@@ -7,12 +7,12 @@ namespace EasyDI.ReV2.Definitions
 {
     public class OrdinaryResolvableTypeDef : ResolvableTypeBase
     {
-        public Delgates.InstanceScopeFactory Factory { get; }
+        public CurriedDescriptorDef Factory{ get; }
 
         public OrdinaryResolvableTypeDef(
               Type originalType,
               Type resolvableType,
-              Delgates.InstanceScopeFactory factory
+              CurriedDescriptorDef factory
             )
           : base(originalType,
                 resolvableType

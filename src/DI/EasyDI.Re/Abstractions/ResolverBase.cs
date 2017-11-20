@@ -1,9 +1,7 @@
 ﻿using EasyDI.Core;
 using EasyDI.Re.Extensions;
-using EasyDI.Re.Statics;
 using System;
 using System.Collections.Generic;
-using System.Text;
 using static EasyDI.Core.Delegates;
 
 namespace EasyDI.Re.Abstractions

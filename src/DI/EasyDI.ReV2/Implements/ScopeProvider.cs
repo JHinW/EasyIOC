@@ -7,27 +7,36 @@ using System.Text;
 
 namespace EasyDI.ReV2.Implements
 {
-    public class ScopeProvider
+    public class ScopeProvider: IScope
     {
-        private readonly ConcurrentDictionary<Type, object> _singletonContainer;
+        private readonly ConcurrentDictionary<Type, IList<(int, object)>> _singletonContainer;
 
         public ScopeProvider()
         {
-            _singletonContainer = new ConcurrentDictionary<Type, object>();
+            _singletonContainer = new ConcurrentDictionary<Type, IList<(int, object)>>();
         }
 
-        public object TryGetOrAdd(IResolvableType resolvableType, Func<object> factory)
-        {
-            return _singletonContainer.GetOrAdd(
-                        resolvableType.ResolvableType,
-                        factory()
-                        );
-        }
 
         public IScope CreateScopeService()
         {
             return new ScopeService();
         }
 
+        public bool IsResolving(Type baseType)
+        {
+            return true;
+        }
+
+        public void AddToScopeSet(Type baseType)
+        {
+            return;
+        }
+
+        public Delgates.InstanceScopeFactory TryGetOrAdd(IResolvableType resolvableType)
+        {
+            return _singletonContainer.GetOrAdd(
+                        resolvableType.ResolvableType
+                        );
+        }
     }
 }

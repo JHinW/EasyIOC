@@ -7,17 +7,17 @@ namespace EasyDI.ReV2.Definitions
 {
     public class EnumrableResolvableTypeDef: ResolvableTypeBase
     {
-        public IList<CurriedDescriptorDef> Factories { get; }
+        public IList<CurriedDescriptorDef> CurriedDescriptorDefList { get; }
 
         public EnumrableResolvableTypeDef(Type originalType,
               Type resolvableType,
-              IList<CurriedDescriptorDef> factories
+              IList<CurriedDescriptorDef> curriedDescriptorDefList
             )
           : base(originalType,
                 resolvableType
                 )
         {
-            Factories = factories;
+            CurriedDescriptorDefList = curriedDescriptorDefList;
         }
     }
 }

@@ -7,18 +7,18 @@ namespace EasyDI.ReV2.Definitions
 {
     public class OrdinaryResolvableTypeDef : ResolvableTypeBase
     {
-        public CurriedDescriptorDef Factory{ get; }
+        public CurriedDescriptorDef CurriedDescriptorDef { get; }
 
         public OrdinaryResolvableTypeDef(
               Type originalType,
               Type resolvableType,
-              CurriedDescriptorDef factory
+              CurriedDescriptorDef curriedDescriptorDef
             )
           : base(originalType,
                 resolvableType
                 )
         {
-            Factory = factory;
+            CurriedDescriptorDef = curriedDescriptorDef;
         }
     }
 }

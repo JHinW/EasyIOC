@@ -5,6 +5,7 @@ using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using static EasyDI.ReV2.Delgates;
 
 namespace EasyDI.ReV2.Implements
@@ -42,30 +43,13 @@ namespace EasyDI.ReV2.Implements
             {
                 case OrdinaryResolvableTypeDef ordinaryResolvableTypeDef:
 
-                    var lifetime = ordinaryResolvableTypeDef.Factory.Lifetime;
-                    var factory = ordinaryResolvableTypeDef.Factory;
-                    // var container = lifetime == ServiceLifetime.Scoped ? _scopeContainer
-
-                    if (lifetime == ServiceLifetime.Scoped)
-                    {
-                        return ScopeGet(
-                            ordinaryResolvableTypeDef.ResolvableType,
-                            factory);
-                    }
-                    else if (lifetime == ServiceLifetime.Singleton)
-                    {
-                        return SingletonGet(
-                            ordinaryResolvableTypeDef.ResolvableType,
-                            factory);
-                    }
-                    else
-                    {
-                        return (resolver, scope) => factory.InstanceScopeFactory(resolver, scope);
-                    }
+                    return GetInstanceFactory(resolvableType.ResolvableType,
+                        ordinaryResolvableTypeDef.CurriedDescriptorDef);
 
                 case EnumrableResolvableTypeDef enumrableResolvableTypeDef:
 
-                    return null;
+                    return GetInstanceFactory(resolvableType.ResolvableType,
+                        enumrableResolvableTypeDef.CurriedDescriptorDefList);
             }
 
             return null;
@@ -100,11 +84,42 @@ namespace EasyDI.ReV2.Implements
             };
         }
 
-        public Delgates.InstanceScopeFactory SingletonGet(Type indexType, CurriedDescriptorDef curriedDescriptorDef)
+        public InstanceScopeFactory SingletonGet(Type indexType, CurriedDescriptorDef curriedDescriptorDef)
         {
             return _singletonGetDelegate(indexType, curriedDescriptorDef);
         }
 
+        public InstanceScopeFactory GetInstanceFactory(Type indexType, CurriedDescriptorDef curriedDescriptorDef)
+        {
+            var lifetime = curriedDescriptorDef.Lifetime;
 
+            if (lifetime == ServiceLifetime.Scoped)
+            {
+                return ScopeGet(indexType, curriedDescriptorDef);
+            }
+            else if (lifetime == ServiceLifetime.Singleton)
+            {
+                return SingletonGet(indexType, curriedDescriptorDef);
+            }
+            else
+            {
+                return (resolver, scope) => curriedDescriptorDef.InstanceScopeFactory(resolver, scope);
+            }
+        }
+
+        public InstanceScopeFactory GetInstanceFactory(Type indexType, IList<CurriedDescriptorDef> curriedDescriptorDefList)
+        {
+            return (resolver, scope) =>
+            {
+                Type dictType = typeof(List<>).MakeGenericType(indexType);
+                var lst = Activator.CreateInstance(dictType);
+                MethodInfo info = typeof(List<>).MakeGenericType(indexType).GetMethod("Add");
+                foreach (var def in curriedDescriptorDefList)
+                {
+                    info.Invoke(lst, new[] { GetInstanceFactory(indexType, def) });
+                }
+                return lst;
+            };
+        }
     }
 }

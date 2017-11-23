@@ -22,23 +22,24 @@ namespace EasyDI.ReV2.Implements
         public IScope CreateScopeService()
         {
             return new ScopeService(
-                (type, curriedDescriptorDef) => SingletonGet(type, curriedDescriptorDef)
+                curriedDescriptorDef => SingletonGet(curriedDescriptorDef)
                 );
         }
 
-        public Delgates.InstanceScopeFactory SingletonGet(Type indexType, CurriedDescriptorDef curriedDescriptorDef)
+        public Delgates.InstanceScopeFactory SingletonGet(CurriedDescriptorDef curriedDescriptorDef)
         {
+            var type = curriedDescriptorDef.RefType;
             var factory = curriedDescriptorDef.InstanceScopeFactory;
             var index = curriedDescriptorDef.Index;
             return (resolver, scope) =>
             {
                 var result = _singletonContainer.AddOrUpdate(
-                   indexType,
+                   type,
                      (key) =>
                      {
                          var list = new List<InstanceDescriptorDef>
                          {
-                            InstanceDescriptorDef.Create(index, factory(resolver, scope))
+                            InstanceDescriptorDef.Create(index, type, factory(resolver, scope))
                          };
                          return list;
                      }, (key, old) =>
@@ -46,7 +47,7 @@ namespace EasyDI.ReV2.Implements
                          var list = old;
                          if (!list.Any(def => def.Index == index))
                          {
-                             list.Add(InstanceDescriptorDef.Create(index, factory(resolver, scope)));
+                             list.Add(InstanceDescriptorDef.Create(index, type, factory(resolver, scope)));
                          }
 
                          return list;

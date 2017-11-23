@@ -16,11 +16,11 @@ namespace EasyDI.ReV2.Implements
 
         private readonly HashSet<Type> _resolvingTypeSet;
 
-        private readonly Func<Type, CurriedDescriptorDef, InstanceScopeFactory> _singletonGetDelegate;
+        private readonly Func<CurriedDescriptorDef, InstanceScopeFactory> _singletonGetDelegate;
 
         // private readonly 
 
-        public ScopeService(Func<Type, CurriedDescriptorDef, InstanceScopeFactory> singletonGetDelegate)
+        public ScopeService(Func<CurriedDescriptorDef, InstanceScopeFactory> singletonGetDelegate)
         {
             _scopeContainer = new ConcurrentDictionary<Type, IList<InstanceDescriptorDef>>();
             _resolvingTypeSet = new HashSet<Type>();
@@ -43,31 +43,30 @@ namespace EasyDI.ReV2.Implements
             {
                 case OrdinaryResolvableTypeDef ordinaryResolvableTypeDef:
 
-                    return GetInstanceFactory(resolvableType.ResolvableType,
-                        ordinaryResolvableTypeDef.CurriedDescriptorDef);
+                    return GetInstanceFactory(ordinaryResolvableTypeDef.CurriedDescriptorDef);
 
                 case EnumrableResolvableTypeDef enumrableResolvableTypeDef:
 
-                    return GetInstanceFactory(resolvableType.ResolvableType,
-                        enumrableResolvableTypeDef.CurriedDescriptorDefList);
+                    return GetInstanceFactory(enumrableResolvableTypeDef.CurriedDescriptorDefList);
             }
 
             return null;
         }
 
-        public InstanceScopeFactory ScopeGet(Type indexType, CurriedDescriptorDef curriedDescriptorDef)
+        public InstanceScopeFactory ScopeGet(CurriedDescriptorDef curriedDescriptorDef)
         {
+            var type = curriedDescriptorDef.RefType;
             var factory = curriedDescriptorDef.InstanceScopeFactory;
             var index = curriedDescriptorDef.Index;
             return (resolver, scope) =>
             {
                 var result = _scopeContainer.AddOrUpdate(
-                   indexType,
+                   type,
                      (key) =>
                      {
                          var list = new List<InstanceDescriptorDef>
                          {
-                            InstanceDescriptorDef.Create(index, factory(resolver, scope))
+                            InstanceDescriptorDef.Create(index, type, factory(resolver, scope))
                          };
                          return list;
                      }, (key, old) =>
@@ -75,7 +74,7 @@ namespace EasyDI.ReV2.Implements
                          var list = old;
                          if (!list.Any(def => def.Index == index))
                          {
-                            list.Add(InstanceDescriptorDef.Create(index, factory(resolver, scope)));
+                            list.Add(InstanceDescriptorDef.Create(index, type, factory(resolver, scope)));
                          }
 
                          return list;
@@ -84,22 +83,22 @@ namespace EasyDI.ReV2.Implements
             };
         }
 
-        public InstanceScopeFactory SingletonGet(Type indexType, CurriedDescriptorDef curriedDescriptorDef)
+        public InstanceScopeFactory SingletonGet(CurriedDescriptorDef curriedDescriptorDef)
         {
-            return _singletonGetDelegate(indexType, curriedDescriptorDef);
+            return _singletonGetDelegate(curriedDescriptorDef);
         }
 
-        public InstanceScopeFactory GetInstanceFactory(Type indexType, CurriedDescriptorDef curriedDescriptorDef)
+        public InstanceScopeFactory GetInstanceFactory(CurriedDescriptorDef curriedDescriptorDef)
         {
             var lifetime = curriedDescriptorDef.Lifetime;
 
             if (lifetime == ServiceLifetime.Scoped)
             {
-                return ScopeGet(indexType, curriedDescriptorDef);
+                return ScopeGet(curriedDescriptorDef);
             }
             else if (lifetime == ServiceLifetime.Singleton)
             {
-                return SingletonGet(indexType, curriedDescriptorDef);
+                return SingletonGet(curriedDescriptorDef);
             }
             else
             {
@@ -107,16 +106,17 @@ namespace EasyDI.ReV2.Implements
             }
         }
 
-        public InstanceScopeFactory GetInstanceFactory(Type indexType, IList<CurriedDescriptorDef> curriedDescriptorDefList)
+        public InstanceScopeFactory GetInstanceFactory(IList<CurriedDescriptorDef> curriedDescriptorDefList)
         {
+            var type = curriedDescriptorDefList[0].RefType;
             return (resolver, scope) =>
             {
-                Type dictType = typeof(List<>).MakeGenericType(indexType);
+                Type dictType = typeof(List<>).MakeGenericType(type);
                 var lst = Activator.CreateInstance(dictType);
-                MethodInfo info = typeof(List<>).MakeGenericType(indexType).GetMethod("Add");
+                MethodInfo info = typeof(List<>).MakeGenericType(type).GetMethod("Add");
                 foreach (var def in curriedDescriptorDefList)
                 {
-                    info.Invoke(lst, new[] { GetInstanceFactory(indexType, def) });
+                    info.Invoke(lst, new[] { GetInstanceFactory(def) });
                 }
                 return lst;
             };

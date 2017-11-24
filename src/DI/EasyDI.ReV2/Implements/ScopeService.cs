@@ -121,5 +121,10 @@ namespace EasyDI.ReV2.Implements
                 return lst;
             };
         }
+
+        public object TryAddOrUpdate(IResolvableType resolvableType, int index, ServiceLifetime serviceLifetime, Func<object> factory)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

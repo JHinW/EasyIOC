@@ -6,7 +6,7 @@ namespace EasyDI.Core
 {
     public interface ITracker
     {
-        Object Track(Type type);
+        T Track<T>(Type type);
 
         bool CanBeResolved(Type baseType);
 

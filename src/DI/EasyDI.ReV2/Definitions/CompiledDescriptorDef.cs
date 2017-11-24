@@ -12,32 +12,32 @@ namespace EasyDI.ReV2.Definitions
 
         public ServiceLifetime Lifetime { get; }
 
-        public InstanceTrackScopeFactory InstanceTrackScopeFactory { get; }
+        public ResolvableFactory ResolvableFactory { get; }
 
         public CompiledDescriptorDef(
             int index,
             Type type,
             ServiceLifetime lifetime,
-            InstanceTrackScopeFactory instanceTrackScopeFactory
+            ResolvableFactory resolvableFactory
            )
         {
             index = Index;
             RefType = type;
             Lifetime = lifetime;
-            InstanceTrackScopeFactory = instanceTrackScopeFactory;
+            ResolvableFactory = resolvableFactory;
         }
 
         public static CompiledDescriptorDef Create(
             int index,
             Type type,
             ServiceLifetime lifetime,
-            InstanceTrackScopeFactory instanceTrackScopeFactory)
+            ResolvableFactory resolvableFactory)
         {
             return new CompiledDescriptorDef(
                 index,
                 type,
                 lifetime,
-                instanceTrackScopeFactory);
+                resolvableFactory);
         }
     }
 }

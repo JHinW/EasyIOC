@@ -29,17 +29,17 @@ namespace EasyDI.ReV2.Definitions
             InstanceScopeFactory = instanceScopeFactory;
         }
 
-        public static CompiledDescriptorDef Create(
+        public static CurriedDescriptorDef Create(
             int index,
             Type type,
             ServiceLifetime lifetime,
-            InstanceTrackScopeFactory instanceTrackScopeFactory)
+            InstanceScopeFactory instanceScopeFactory)
         {
-            return new CompiledDescriptorDef(
+            return new CurriedDescriptorDef(
                 index,
                 type,
                 lifetime,
-                instanceTrackScopeFactory);
+                instanceScopeFactory);
         }
     }
 }

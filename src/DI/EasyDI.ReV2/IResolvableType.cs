@@ -7,5 +7,5 @@ namespace EasyDI.ReV2
         Type OriginalType { get;}
 
         Type ResolvableType { get; }
-}
+    }
 }

@@ -1,7 +1,6 @@
-﻿using EasyDI.Core;
-using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System;
+
+using EasyDI.Core;
 using static EasyDI.ReV2.Delgates;
 
 namespace EasyDI.ReV2.Core

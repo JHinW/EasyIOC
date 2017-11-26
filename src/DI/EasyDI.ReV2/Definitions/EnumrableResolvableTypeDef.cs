@@ -9,6 +9,10 @@ namespace EasyDI.ReV2.Definitions
     {
         public IList<CurriedDescriptorDef> CurriedDescriptorDefList { get; }
 
+        public Boolean IsGenericEnumrable { get; }
+
+        public Boolean GenericEnumrable { get; }
+
         public EnumrableResolvableTypeDef(Type originalType,
               Type resolvableType,
               IList<CurriedDescriptorDef> curriedDescriptorDefList

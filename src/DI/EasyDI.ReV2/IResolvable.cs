@@ -12,10 +12,15 @@ namespace EasyDI.ReV2
 
         Boolean IsEnd { get; }
 
-        void SetDep(IResolvable resolvable);
+        IResolvable SetDep(IResolvable resolvable);
 
-        void AsEnd();
+        IResolvable AsEnd();
 
-        void NotAsEnd();
+        IResolvable NotAsEnd();
+
+        Boolean IsResolvable();
+
+
+        IEnumerable<IResolvable> Flattern();
     }
 }

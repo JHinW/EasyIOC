@@ -13,6 +13,6 @@ namespace EasyDI.ReV2
              ITracker tracker);
 
         public delegate InstanceTrackScopeFactory ResolvableFactory(
-             IResolvableType resolvableType);
+             IResolvable resolvableType);
     }
 }

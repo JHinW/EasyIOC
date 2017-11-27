@@ -13,5 +13,11 @@ namespace EasyDI.ReV2.Resolves
             base.AsEnd();
         }
 
+        public static IResolvable Create(Type type)
+        {
+            return new OrdinaryResolve(type);
+        }
+
+
     }
 }

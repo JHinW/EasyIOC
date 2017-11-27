@@ -21,7 +21,7 @@ namespace EasyDI.ReV2.Implements
 
         public IScope CreateScopeService()
         {
-            return new ScopeService(
+            return new InnerScope(
                 curriedDescriptorDef => SingletonGet(curriedDescriptorDef)
                 );
         }

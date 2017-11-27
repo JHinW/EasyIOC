@@ -1,5 +1,6 @@
 ﻿using EasyDI.Core;
 using EasyDI.ReV2.Definitions;
+using EasyDI.ReV2.Statics;
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
@@ -29,7 +30,9 @@ namespace EasyDI.ReV2.Abstractions
 
         public bool CanBeResolved(Type baseType)
         {
-            return _resolveCheckDelegate(baseType);
+            var resolvableFactory = ResolvableHelper.CreateResolveFactory(baseType);
+            var resolvable = resolvableFactory(this);
+            return resolvable.IsResolvable();
         }
 
         public EasyTypeDescriptorItem DescriptorResolve(Type baseType)
@@ -37,12 +40,25 @@ namespace EasyDI.ReV2.Abstractions
             return _baseTypeToDescriptorItemDelegate(baseType);
         }
 
+        public bool IsIndexed(Type baseType)
+        {
+            return _resolveCheckDelegate(baseType);
+        }
+
         public CompiledDescriptorDef Track<CompiledDescriptorDef>(Type type)
         {
 
-            var items = _baseTypeToDescriptorItemDelegate(type);
+            var resolvableFactory = ResolvableHelper.CreateResolveFactory(type);
+
+            var resolvable = resolvableFactory(this);
+
+
+            // var items = _baseTypeToDescriptorItemDelegate(type);
 
             throw new NotImplementedException();
         }
+
+
+         
     }
 }

@@ -22,20 +22,49 @@ namespace EasyDI.ReV2.Abstractions
             _depResolvables = null;
         }
 
-        public virtual void SetDep(IResolvable resolvable)
+        public virtual IResolvable SetDep(IResolvable resolvable)
         {
             _depResolvables = _depResolvables ?? new List<IResolvable>();
             _depResolvables.Add(resolvable);
+            return this;
         }
 
-        public void AsEnd()
+        public IResolvable AsEnd()
         {
             _isEnd = true;
+            return this;
         }
 
-        public void NotAsEnd()
+        public IResolvable NotAsEnd()
         {
             _isEnd = false;
+            return this;
+        }
+
+        public bool IsResolvable()
+        {
+            foreach(var item in this.Flattern())
+            {
+                if (item.IsEnd) return true;
+            }
+
+            return false;
+        }
+
+        public IEnumerable<IResolvable> Flattern()
+        {
+            yield return this;
+            if(_depResolvables != null)
+            {
+                foreach (var resolve in _depResolvables)
+                {
+                    foreach (var item in resolve.Flattern())
+                    {
+                        yield return item;
+                    }
+                }
+            }
+            
         }
     }
 }

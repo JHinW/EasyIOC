@@ -39,24 +39,24 @@ namespace EasyDI.ReV2.Implements
             return _resolvingTypeSet.Contains(baseType);
         }
 
-        public InstanceScopeFactory TryGetOrAdd(IResolvableType resolvableType)
+        public InstanceScopeFactory TryGetOrAdd(IResolvable resolvableType)
         {
             throw new NotImplementedException();
         }
 
-        public object TryAddOrUpdate(IResolvableType resolvableType, int index, ServiceLifetime serviceLifetime, Func<Object> factory)
+        public object TryAddOrUpdate(IResolvable resolvableType, int index, ServiceLifetime serviceLifetime, Func<Object> factory)
         {
             var lifetime = serviceLifetime;
 
             if (lifetime == ServiceLifetime.Scoped)
             {
-                return ScopeGet(resolvableType.ResolvableType,
+                return ScopeGet(resolvableType.Type,
                     index,
                     factory);
             }
             else if (lifetime == ServiceLifetime.Singleton)
             {
-                return SingletonGet(resolvableType.ResolvableType,
+                return SingletonGet(resolvableType.Type,
                     index,
                     factory);
             }

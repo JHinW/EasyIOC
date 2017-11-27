@@ -11,8 +11,8 @@ namespace EasyDI.ReV2.Core
 
         void AddToScopeSet(Type baseType);
 
-        InstanceScopeFactory TryGetOrAdd(IResolvableType resolvableType);
+        InstanceScopeFactory TryGetOrAdd(IResolvable resolvableType);
 
-        object TryAddOrUpdate(IResolvableType resolvableType, int index, ServiceLifetime serviceLifetime, Func<Object> factory);
+        object TryAddOrUpdate(IResolvable resolvableType, int index, ServiceLifetime serviceLifetime, Func<Object> factory);
     }
 }

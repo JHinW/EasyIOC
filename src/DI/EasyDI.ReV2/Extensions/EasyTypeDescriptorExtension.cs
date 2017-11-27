@@ -1,5 +1,6 @@
 ﻿using EasyDI.Core;
 using EasyDI.ReV2.Core;
+using EasyDI.ReV2.Resolves;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -49,7 +50,11 @@ namespace EasyDI.ReV2.Extensions
                            && !implT.IsConstructedGenericType)
                            {
                                // typeof(implT).MakeGenericType(type);
-                               implT = implT.MakeGenericType(null);
+                               if(resolvable is GenericResolve)
+                               {
+                                   implT = implT.MakeGenericType(((GenericResolve)resolvable).DepTypes.ToArray());
+                               }
+                               
                            }
 
                            var paras = implT

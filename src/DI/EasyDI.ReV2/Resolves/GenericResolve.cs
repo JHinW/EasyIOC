@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 
 using EasyDI.ReV2.Abstractions;
+using EasyDI.Core;
 
 namespace EasyDI.ReV2.Resolves
 {

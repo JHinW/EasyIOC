@@ -35,6 +35,13 @@ namespace EasyDI.ReV2.Abstractions
             return resolvable.IsResolvable();
         }
 
+        public bool CanBeResolved(Type baseType, out IResolvable resolvable)
+        {
+            var resolvableFactory = ResolvableHelper.CreateResolveFactory(baseType);
+            resolvable = resolvableFactory(this);
+            return resolvable.IsResolvable();
+        }
+
         public EasyTypeDescriptorItem DescriptorResolve(Type baseType)
         {
             return _baseTypeToDescriptorItemDelegate(baseType);
@@ -48,10 +55,11 @@ namespace EasyDI.ReV2.Abstractions
         public CompiledDescriptorDef Track<CompiledDescriptorDef>(Type type)
         {
 
-            var resolvableFactory = ResolvableHelper.CreateResolveFactory(type);
-
-            var resolvable = resolvableFactory(this);
-
+            if(!CanBeResolved(type, out var resolvable))
+            {
+                throw new InvalidOperationException($"The Type {nameof(type)} cannot be resolved!");
+            }
+            // resolvable
 
             // var items = _baseTypeToDescriptorItemDelegate(type);
 

@@ -1,8 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
 
-namespace EasyDI.ReV2
+namespace EasyDI.Core
 {
     public interface IResolvable
     {
@@ -19,7 +18,6 @@ namespace EasyDI.ReV2
         IResolvable NotAsEnd();
 
         Boolean IsResolvable();
-
 
         IEnumerable<IResolvable> Flattern();
     }

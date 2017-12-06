@@ -10,6 +10,8 @@ namespace EasyDI.Core
 
         bool CanBeResolved(Type baseType);
 
+        bool CanBeResolved(Type baseType, out IResolvable resolvable);
+
         bool IsIndexed(Type baseType);
 
         EasyTypeDescriptorItem DescriptorResolve(Type baseType);

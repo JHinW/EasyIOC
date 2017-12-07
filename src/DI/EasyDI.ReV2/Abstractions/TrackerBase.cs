@@ -1,10 +1,12 @@
-﻿using EasyDI.Core;
-using EasyDI.ReV2.Definitions;
-using EasyDI.ReV2.Statics;
-using System;
+﻿using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Text;
+
+using EasyDI.Core;
+using EasyDI.ReV2.Definitions;
+using EasyDI.ReV2.Statics;
+
 using static EasyDI.Core.Delegates;
 
 namespace EasyDI.ReV2.Abstractions

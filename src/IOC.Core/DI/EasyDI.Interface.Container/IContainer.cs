@@ -1,22 +1,21 @@
 ﻿
-
-namespace EasyDI.Interface.Container
+namespace EasyDI.Definition.Container
 {
     using System;
     using System.Collections.Generic;
 
-    using EasyDI.Interface.Common;
+    using EasyDI.Definition.Common;
 
-    public interface IContainer
+    public interface IContainer<TDisp, TDispItem, TCompiledItem>
     {
-        void AddMapping<TDisp>(Type key, TDisp disp);
+        void AddMapping(Type key, TDisp disp);
 
-        void RemoveMapping(Type key);
+        TDispItem RemoveMapping(Type key);
 
-        TDisp GetMappingDisp<TDisp>(Type key);
+        TDispItem GetMappingDisp(Type key);
 
-        TProvider CreateProvider<TProvider>() where TProvider : IProvider;
+        IProvider CreateProvider();
 
-        Ttracker CreateTracker<Ttracker>() where Ttracker : ITracker;
+        ITracker<TDispItem, TCompiledItem> CreateTracker();
     }
 }

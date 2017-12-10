@@ -1,7 +1,7 @@
 ﻿
-namespace EasyDI.Interface.Resolve
+namespace EasyDI.Definition.Resolve
 {
-    using EasyDI.Interface.Resolve.Abstractions;
+    using EasyDI.Definition.Resolve.Abstractions;
 
     public interface IResolveStrategyBuilder
     {

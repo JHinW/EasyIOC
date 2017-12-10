@@ -5,7 +5,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\EasyDI.Interface.Common\EasyDI.Interface.Common.csproj" />
+    <ProjectReference Include="..\EasyDI.Interface.Common\EasyDI.Definition.Common.csproj" />
   </ItemGroup>
 
 </Project>

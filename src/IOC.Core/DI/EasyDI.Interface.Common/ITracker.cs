@@ -1,16 +1,16 @@
 ﻿
-namespace EasyDI.Interface.Common
+namespace EasyDI.Definition.Common
 {
     using System;
     using System.Collections.Generic;
     using System.Text;
 
-    public interface ITracker
+    public interface ITracker<TDispItem, TCompiledItem>
     {
-        T Track<T>(Type type);
+        TCompiledItem Track(Type type);
 
         bool IsIndexed(Type type);
 
-        T ContainerResolve<T>(Type serviceType);
+        TDispItem ContainerResolve(Type serviceType);
     }
 }

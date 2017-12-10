@@ -62,7 +62,7 @@ namespace EasyDI.ReV2.Implements
             }
             else
             {
-                return factory;
+                return factory();
             }
         }
 

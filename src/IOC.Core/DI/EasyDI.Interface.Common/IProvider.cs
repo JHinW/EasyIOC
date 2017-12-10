@@ -1,6 +1,6 @@
 ﻿
 
-namespace EasyDI.Interface.Common
+namespace EasyDI.Definition.Common
 {
     using System;
     using System.Collections.Generic;

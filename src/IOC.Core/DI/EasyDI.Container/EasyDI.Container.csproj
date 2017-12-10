@@ -1,0 +1,12 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\EasyDI.Interface.Common\EasyDI.Definition.Common.csproj" />
+    <ProjectReference Include="..\EasyDI.Interface.Container\EasyDI.Definition.Container.csproj" />
+  </ItemGroup>
+
+</Project>

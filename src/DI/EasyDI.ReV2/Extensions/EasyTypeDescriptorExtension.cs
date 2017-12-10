@@ -9,7 +9,6 @@ using static EasyDI.ReV2.Delgates;
 
 namespace EasyDI.ReV2.Extensions
 {
-
     public static class EasyTypeDescriptorExtension
     {
         public static ResolvableFactory AsInstanceTrackScopeFactory(this EasyTypeDescriptor item, int index)

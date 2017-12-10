@@ -1,6 +1,6 @@
 ﻿
 
-namespace EasyDI.Interface.Resolve
+namespace EasyDI.Definition.Resolve
 {
     public interface IGenericTree
     {

@@ -4,4 +4,8 @@
     <TargetFramework>netcoreapp2.0</TargetFramework>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\EasyDI.Interface.Resolve\EasyDI.Definition.Resolve.csproj" />
+  </ItemGroup>
+
 </Project>

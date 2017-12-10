@@ -1,6 +1,6 @@
 ﻿
 
-namespace EasyDI.Interface.Resolve.Abstractions
+namespace EasyDI.Definition.Resolve.Abstractions
 {
     using System;
     using System.Collections.Generic;

@@ -7,10 +7,15 @@ namespace EasyDI.Definition.Resolve.Abstractions
 
     public abstract class ResolveStrategyBase
     {
-        private readonly Func<IResolve, IResolvable> _resolvableFactoryChain;
+        protected readonly Func<IResolve, IResolvable> _resolvableFactoryChain;
 
         protected abstract IResolvable CreateResolvable(IResolve resolve);
 
-        public abstract ResolvableDelegate CreateResovableDelegate(IResolve resolve);
+        public abstract ResolvableDelegate CreateResovableDelegate(Type type);
+
+        protected ResolveStrategyBase(Func<IResolve, IResolvable> resolvableFactoryChain)
+        {
+            _resolvableFactoryChain = resolvableFactoryChain;
+        }
     }
 }

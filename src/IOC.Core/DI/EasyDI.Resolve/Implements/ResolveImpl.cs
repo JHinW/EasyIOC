@@ -13,7 +13,7 @@ namespace EasyDI.Resolve.Implements
 
         public bool IsIndexed { get; }
 
-        public IList<IResolve> SubResolves { get; }
+        public IEnumerable<IResolve> SubResolves { get; }
 
         public ResolveImpl(Type type, bool isIndexed)
         {
@@ -23,11 +23,19 @@ namespace EasyDI.Resolve.Implements
 
         public ResolveImpl(Type type,
             bool isIndexed,
-             IList<IResolve> subResolves
+             IEnumerable<IResolve> subResolves
             ): this(type, isIndexed)
         {
             SubResolves = subResolves;
 
+        }
+
+        public static IResolve Create(Type type,
+            bool isIndexed,
+            IEnumerable<IResolve> subResolves
+            )
+        {
+            return new ResolveImpl(type, isIndexed, subResolves);
         }
 
 

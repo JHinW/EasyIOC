@@ -6,5 +6,7 @@ namespace EasyDI.Definition.Resolve
     public interface IResolveStrategyBuilder
     {
         ResolveStrategyBase Build();
+
+        void AddStrategyMiddleware(ResolvableMiddleware middleware);
     }
 }

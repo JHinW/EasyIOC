@@ -8,7 +8,17 @@ namespace EasyDI.Definition.Resolve.Abstractions
 
     public abstract class ResolveStrategyBuilderBase: IResolveStrategyBuilder
     {
-        private readonly IList<ResolvableMiddleware> _resolvableFactoryList;
+        protected readonly IList<ResolvableMiddleware> _resolvableFactoryList;
+
+        protected ResolveStrategyBuilderBase()
+        {
+            _resolvableFactoryList = new List<ResolvableMiddleware>();
+        }
+
+        public void AddStrategyMiddleware(ResolvableMiddleware middleware)
+        {
+            _resolvableFactoryList.Add(middleware);
+        }
 
         public abstract ResolveStrategyBase Build();
     }

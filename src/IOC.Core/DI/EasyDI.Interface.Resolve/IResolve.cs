@@ -11,6 +11,6 @@ namespace EasyDI.Definition.Resolve
 
         bool IsIndexed { get; }
 
-        IList<IResolve> SubResolves { get; }
+        IEnumerable<IResolve> SubResolves { get; }
     }
 }

@@ -7,7 +7,7 @@ namespace EasyDI.Resolve.Builder
 
     using EasyDI.Definition.Resolve;
     using EasyDI.Definition.Resolve.Abstractions;
-    using EasyDI.Resolve.Statics;
+    using EasyDI.Resolve.Extensions;
 
     public class ResolveStrategy : ResolveStrategyBase
     {
@@ -18,7 +18,7 @@ namespace EasyDI.Resolve.Builder
         public override Func<Func<Type, bool>, IResolvable> CreateResovableDelegate(Type type)
         {
             return checker => {
-                var resolve = ResolveHelper.ResolveBuild(type, checker);
+                var resolve = type.AsResolve(checker);
                 return CreateResolvable(resolve: resolve);
             };
 

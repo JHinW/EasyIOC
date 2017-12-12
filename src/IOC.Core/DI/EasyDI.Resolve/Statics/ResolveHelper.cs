@@ -16,12 +16,14 @@ namespace EasyDI.Resolve.Statics
     {
         public static IResolve ResolveBuild(Type type, Func<Type, bool> checker)
         {
+            /*
             if (checker(type))
             {
                 return ResolveImpl.Create(type, checker(type), null);
             }
+            */
 
-            if (type.IsGenericType)
+            if (type.IsGenericType && type.IsConstructedGenericType)
             {
                 var resolves = type.GenericFlatten()
                     .Select(t => ResolveBuild(t, checker));
@@ -29,6 +31,63 @@ namespace EasyDI.Resolve.Statics
             }
 
             return ResolveImpl.Create(type, checker(type), null);
+        }
+
+        internal static void ResolveTraversal_Preorder(IResolve resolve, Action<IResolve, int> action, int level)
+        {
+            action(resolve, level);
+
+            if (resolve.SubResolves == null) return;
+
+            foreach (var child in resolve.SubResolves)
+            {
+                ResolveTraversal_Preorder(child, action, level + 1);
+            }
+        }
+
+        public static void ResolveTraversal_Preorder(IResolve resolve, Action<IResolve, int> action)
+        {
+            var level = 1;
+            action(resolve, level);
+
+            if (resolve.SubResolves == null) return;
+
+            foreach (var child in resolve.SubResolves)
+            {
+                ResolveTraversal_Preorder(child, action, level + 1);
+            }
+        }
+
+        public static int ResolveTraversal_Depth(IResolve resolve)
+        {
+            if (resolve == null) return 0;
+
+            if (resolve.SubResolves == null) return 1;
+
+            return resolve.SubResolves.Max(re => ResolveTraversal_Depth(re)) + 1;
+        }
+
+
+        internal static IEnumerable<IResolve> ResolveTraversal_Level(IResolve resolve, int levelTag, int destinationLevel)
+        {
+            if (levelTag == destinationLevel)
+                return Enumerable.Empty<IResolve>().Append(ResolveImpl.Create(resolve.Type, resolve.IsIndexed, null));
+
+            if (resolve.SubResolves == null)
+                return Enumerable.Empty<IResolve>();
+
+            return resolve.SubResolves.Aggregate(Enumerable.Empty<IResolve>(), (acc, ele) =>
+            {
+                return acc.Concat(ResolveTraversal_Level(ele, levelTag + 1, destinationLevel));
+            });
+        }
+
+        public static IEnumerable<IResolve> ResolveTraversal_Level(IResolve resolve, int destinationLevel)
+        {
+            if (ResolveTraversal_Depth(resolve) < destinationLevel)
+                throw new InvalidOperationException("Can not get the specific leve data.");
+
+            return ResolveTraversal_Level(resolve, 1, destinationLevel);
         }
     }
 }

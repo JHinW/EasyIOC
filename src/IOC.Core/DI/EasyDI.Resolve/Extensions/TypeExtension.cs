@@ -7,13 +7,13 @@ namespace EasyDI.Resolve.Extensions
     using System.Text;
 
     using EasyDI.Definition.Resolve;
+    using EasyDI.Resolve.Statics;
 
     public static class TypeExtension
     {
-        public static IResolve AsResolve(this Type type)
+        public static IResolve AsResolve(this Type type, Func<Type, bool> checker)
         {
-
-            return null;
+            return ResolveHelper.ResolveBuild(type, checker);
         }
 
         public static IEnumerable<Type> GenericFlatten(this Type type)

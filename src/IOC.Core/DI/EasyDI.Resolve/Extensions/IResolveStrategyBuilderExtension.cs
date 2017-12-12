@@ -10,7 +10,8 @@ namespace EasyDI.Resolve.Extensions
 
     public static class IResolveStrategyBuilderExtension
     {
-        public static IResolveStrategyBuilder ConfigureMiddleware(this IResolveStrategyBuilder builder, 
+        public static IResolveStrategyBuilder ConfigureMiddleware(
+            this IResolveStrategyBuilder builder, 
             Func<IResolveStrategyBuilder, IResolveStrategyBuilder> configureDelegate)
         {
             return configureDelegate(builder);

@@ -6,12 +6,8 @@ namespace EasyDI.Container
     using System.Collections.Generic;
     using System.Text;
 
-    public enum ServiceLifetime
+    public struct EasyTypeDescriptorItemCompiled
     {
-        Singleton,
-
-        Scoped,
-
-        Transient
+        private EasyTypeDescriptor _item;
     }
 }

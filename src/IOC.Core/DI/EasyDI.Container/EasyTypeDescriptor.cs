@@ -1,10 +1,12 @@
 ﻿
 
 namespace EasyDI.Container
-{
+{    
     using System;
     using System.Collections.Generic;
     using System.Text;
+
+    using EasyDI.Definition.Common;
 
     public class EasyTypeDescriptor
     {

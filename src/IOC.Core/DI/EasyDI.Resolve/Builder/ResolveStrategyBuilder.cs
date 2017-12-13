@@ -9,7 +9,7 @@ namespace EasyDI.Resolve.Builder
 
     public class ResolveStrategyBuilder : ResolveStrategyBuilderBase
     {
-        public ResolveStrategyBuilder():base()
+        public ResolveStrategyBuilder(): base()
         {
         }
 

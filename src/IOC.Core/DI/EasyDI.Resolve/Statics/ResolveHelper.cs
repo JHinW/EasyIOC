@@ -11,7 +11,6 @@ namespace EasyDI.Resolve.Statics
     using EasyDI.Resolve.Implements;
     using EasyDI.Resolve.Extensions;
     
-
     public static class ResolveHelper
     {
         public static IResolve ResolveBuild(Type type, Func<Type, bool> checker)
@@ -66,7 +65,6 @@ namespace EasyDI.Resolve.Statics
 
             return resolve.SubResolves.Max(re => ResolveTraversal_Depth(re)) + 1;
         }
-
 
         internal static IEnumerable<IResolve> ResolveTraversal_Level(IResolve resolve, int levelTag, int destinationLevel)
         {

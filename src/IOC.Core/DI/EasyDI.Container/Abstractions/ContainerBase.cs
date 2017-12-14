@@ -7,7 +7,8 @@ namespace EasyDI.Container.Abstractions
     using EasyDI.Definition.Container;
     using EasyDI.Definition.Common;
 
-    public abstract class ContainerBase : IContainer<EasyTypeDescriptor, EasyTypeDescriptorItem, object>
+    public abstract class ContainerBase: 
+        IContainer<EasyTypeDescriptor, EasyTypeDescriptorItem, EasyTypeDescriptorItemCompiled>
     {
         private readonly ConcurrentDictionary<Type, EasyTypeDescriptorItem> _container;
 
@@ -26,7 +27,7 @@ namespace EasyDI.Container.Abstractions
 
         public abstract IProvider CreateProvider();
 
-        public abstract ITracker<EasyTypeDescriptorItem, object> CreateTracker();
+        public abstract ITracker<EasyTypeDescriptorItem, EasyTypeDescriptorItemCompiled> CreateTracker();
 
         public EasyTypeDescriptorItem GetMappingDisp(Type key)
         {

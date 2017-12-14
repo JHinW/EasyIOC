@@ -8,6 +8,10 @@ namespace EasyDI.Container
 
     public struct EasyTypeDescriptorItemCompiled
     {
-        private EasyTypeDescriptor _item;
+        public IEnumerable<EasyTypeDescriptorCompiled> CompiledDelegate { get; }
+
+        
+        
+
     }
 }

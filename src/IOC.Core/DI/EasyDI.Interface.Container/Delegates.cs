@@ -2,10 +2,11 @@
 
 namespace EasyDI.Definition.Container
 {
-    using EasyDI.Definition.Common;
     using System;
     using System.Collections.Generic;
     using System.Text;
+
+    using EasyDI.Definition.Common;
 
     public static class Delegates
     {

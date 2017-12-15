@@ -8,6 +8,6 @@ namespace EasyDI.Definition.Resolve
 
     public interface ITypeFulfill
     {
-        Type Fullfil(Type type, IResolvable resolvable);
+        Type Fulfill(Type implType, IResolvable resolvable);
     }
 }

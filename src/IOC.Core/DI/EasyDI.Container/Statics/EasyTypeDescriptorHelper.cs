@@ -15,19 +15,36 @@ namespace EasyDI.Container.Statics
 
     public static class EasyTypeDescriptorHelper
     {
-        public static EasyTypeDescriptorCompiled EasyTypeDescriptorCompile(EasyTypeDescriptor disp)
+        public static EasyTypeDescriptorCompiled EasyTypeDescriptorCompile(
+            EasyTypeDescriptor disp,
+            int index,
+            ITypeFulfill concreter
+            )
         {
 
 
 
+            InstanceFactoryResolvable factory = resolvable => instanceFactoryResolverScope => (provider, scope) =>
+            {
+                return Manufacture(disp, 
+                    index, 
+                    concreter, 
+                    resolvable, 
+                    instanceFactoryResolverScope, 
+                    provider, 
+                    scope);
+            };
 
-            return default(EasyTypeDescriptorCompiled);
+
+
+            return EasyTypeDescriptorCompiled.Create(factory, null);
         }
 
 
         public static object Manufacture(
             EasyTypeDescriptor item,
             int index,
+            ITypeFulfill concreter,
             IResolvable resolvable, 
             InstanceFactoryResolverScope instanceFactoryResolverScope,
             IProvider provider,
@@ -65,11 +82,7 @@ namespace EasyDI.Container.Statics
                    {
                        var implT = selectedItem.ImplementationType;
 
-                       if (implT.IsGenericType
-                       && !implT.IsConstructedGenericType)
-                       {
-                            // typeof(implT).MakeGenericType(type);
-                       }
+                       implT = concreter.Fulfill(implT, resolvable);
 
                        var paras = implT
                            .ExportConstructorParams(t => provider.CanbeResolved(t))

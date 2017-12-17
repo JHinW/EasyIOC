@@ -1,6 +1,6 @@
 ﻿
 
-namespace EasyDI.Usage
+namespace EasyDI.Usage.Provider
 {
     using System;
     using System.Collections.Generic;
@@ -10,8 +10,8 @@ namespace EasyDI.Usage
     using EasyDI.Definition.Resolve.Abstractions;
 
     public class InstanceProvider : IProvider
-    { 
-        private ResolveStrategyBase _resolveStrategy { get; }
+    {
+        private readonly ResolveStrategyBase _resolveStrategy;
 
         public InstanceProvider(ResolveStrategyBase resolveStrategy)
         {

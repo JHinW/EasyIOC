@@ -21,21 +21,16 @@ namespace EasyDI.Container.Statics
             ITypeFulfill concreter
             )
         {
-
-
-
             InstanceFactoryResolvable factory = resolvable => instanceFactoryResolverScope => (provider, scope) =>
             {
-                return Manufacture(disp, 
-                    index, 
-                    concreter, 
-                    resolvable, 
-                    instanceFactoryResolverScope, 
-                    provider, 
+                return Manufacture(disp,
+                    index,
+                    concreter,
+                    resolvable,
+                    instanceFactoryResolverScope,
+                    provider,
                     scope);
             };
-
-
 
             return EasyTypeDescriptorCompiled.Create(factory, null);
         }

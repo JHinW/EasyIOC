@@ -21,7 +21,7 @@ namespace EasyDI.Resolve.Resolvables
             DepTypes = depTypes;
         }
 
-        public static IResolvable Create(Type originalType, Type indexedType, IList<Type> depTypes)
+        public static IResolvable Create(Type originalType, Type indexedType, IEnumerable<Type> depTypes)
         {
             return new Generic(originalType, indexedType, depTypes);
         }

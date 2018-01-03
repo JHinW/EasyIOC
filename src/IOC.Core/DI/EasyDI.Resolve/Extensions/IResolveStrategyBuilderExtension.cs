@@ -16,5 +16,24 @@ namespace EasyDI.Resolve.Extensions
         {
             return configureDelegate(builder);
         }
+
+        public static IResolveStrategyBuilder AddStragtegy(
+            this IResolveStrategyBuilder builder,
+            Type type)
+        {
+            if (type.IsAssignableFrom(typeof(IStrategy)))
+            {
+                var stragtegy = Activator.CreateInstance(type) as IStrategy;
+
+                builder.AddStrategyMiddleware(next => resolve => stragtegy.ResolvableFactory(resolve));
+            }
+
+            return builder;
+        }
+
+        public static IResolveStrategyBuilder AddStragtegy<T>(this IResolveStrategyBuilder builder) where T : IStrategy
+        {
+            return builder.AddStragtegy(typeof(T));
+        }
     }
 }

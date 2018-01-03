@@ -3,15 +3,15 @@
 namespace EasyDI.Resolve.Strategy
 {
     using System;
-    using System.Linq;
     using System.Collections.Generic;
+    using System.Linq;
     using System.Text;
 
     using EasyDI.Definition.Resolve;
     using EasyDI.Resolve.Extensions;
     using EasyDI.Resolve.Resolvables;
 
-    public class EnumrableStrategy: IStrategy
+    public class GenericStragtegy : IStrategy
     {
         public Func<IResolve, IResolvable> ResolvableFactory => TryResolve;
 
@@ -23,15 +23,13 @@ namespace EasyDI.Resolve.Strategy
                 {
                     var level2 = resolve.Filter(2);
 
-                    if(level2.Count() == 2)
+                    if (level2.ToArray()[0].IsIndexed)
                     {
-                        if (level2.ToArray()[0].IsIndexed)
-                        {
-                            return Enumrable.Create(
-                                resolve.Type,
-                                level2.ToArray()[0].Type
-                                );
-                        }
+                        return Generic.Create(
+                            resolve.Type,
+                            level2.ToArray()[0].Type,
+                            level2.TakeWhile((ele, index) => index > 1).Select(e => e.Type)
+                            );
                     }
                 }
             }

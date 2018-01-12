@@ -94,7 +94,7 @@ namespace EasyDI.Resolve.Statics
 
             if (resolve.SubResolves == null) return 1;
 
-            return resolve.SubResolves.Sum(re => ResolveTraversal_Count(re));
+            return resolve.SubResolves.Sum(re => ResolveTraversal_Count(re)) + 1;
         }
 
 

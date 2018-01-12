@@ -40,5 +40,25 @@ namespace EasyDI.Test.Resolve.Resolve
 
             Assert.Equal(1, 1);
         }
+
+
+        [Fact]
+        public void Rrsolve_Test_Count()
+        {
+            var dic = new Dictionary<Type, bool> {
+                {  typeof(string), true },
+                {  typeof(IEnumerable<>), true },
+                {  typeof(int), true }
+            };
+
+            Func<Type, bool> checker = t => dic.ContainsKey(t);
+
+            var resolves = ResolveHelper.ResolveBuild(typeof(IContainer<string, int, IContainer<string, int, string>>), checker);
+
+            var count = ResolveHelper.ResolveTraversal_Count(resolves);
+
+            Assert.Equal(9, count);
+
+        }
     }
 }

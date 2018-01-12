@@ -19,7 +19,7 @@ namespace EasyDI.Test.Resolve.Resolve
 
             var resolves = ResolveHelper.ResolveBuild(typeof(string), checker);
 
-            Assert.Equal(resolves.GetType(), typeof(IResolve));
+            Assert.Equal(true, typeof(IResolve).IsAssignableFrom(resolves.GetType()));
         }
 
 
@@ -53,7 +53,7 @@ namespace EasyDI.Test.Resolve.Resolve
 
             var resolves = ResolveHelper.ResolveBuild(typeof(IContainer<string, int, string>), checker);
 
-            Assert.Equal(typeof(IResolve).IsAssignableFrom(resolves.GetType()), true);
+            Assert.Equal(true, typeof(IResolve).IsAssignableFrom(resolves.GetType()));
         }
     }
 }

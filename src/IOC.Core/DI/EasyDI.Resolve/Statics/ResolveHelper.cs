@@ -83,9 +83,60 @@ namespace EasyDI.Resolve.Statics
         public static IEnumerable<IResolve> ResolveTraversal_Level(IResolve resolve, int destinationLevel)
         {
             if (ResolveTraversal_Depth(resolve) < destinationLevel)
-                throw new InvalidOperationException("Can not get the specific leve data.");
+                throw new InvalidOperationException("Can not get the specific level data.");
 
             return ResolveTraversal_Level(resolve, 1, destinationLevel);
+        }
+
+        public static int ResolveTraversal_Count(IResolve resolve)
+        {
+            if (resolve == null) return 0;
+
+            if (resolve.SubResolves == null) return 1;
+
+            return resolve.SubResolves.Sum(re => ResolveTraversal_Count(re));
+        }
+
+
+        public static void ResolveTraversal_Count(IResolve resolve, Action<int> action)
+        {
+            if (resolve == null)
+            {
+                action(0);
+                return;
+            }
+            
+
+            if (resolve.SubResolves == null)
+            {
+                action(1);
+                return;
+            }
+            
+
+            // Action<int> lastAction = action;
+
+            var lastAction = resolve.SubResolves.Aggregate(action, (acc, ele) =>
+            {
+                return result =>
+                {
+                    ResolveTraversal_Count(ele, r => acc(result + r));
+
+                };
+            });
+
+            //foreach (var re in resolve.SubResolves)
+            //{
+            //    var temp = re;
+            //    lastAction = result =>
+            //    {
+            //        ResolveTraversal_Count(temp, r => lastAction(result + r));
+
+            //    };
+            //}
+
+            lastAction(1);
+
         }
     }
 }
